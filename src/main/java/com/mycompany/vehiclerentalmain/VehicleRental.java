@@ -133,8 +133,7 @@ class Car extends VehicleRental {
 
     public Car(int numberOfdoors, String feulType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay,
             String availabilityStatus, int year, String color, double mileage) {
-        
-        
+
         if (numberOfdoors < 2 || numberOfdoors > 4) {
             throw new IllegalArgumentException("Invalid number of doors, must be between 2 and 4");
         }
@@ -142,15 +141,14 @@ class Car extends VehicleRental {
         if (!feulType.equalsIgnoreCase("petrol") && !feulType.equalsIgnoreCase("Deisel") && !feulType.equalsIgnoreCase("Electric")) {
             throw new IllegalArgumentException("Feul type must be Petrol, Diesel or Electric!");
         }
-        
-        
+
         super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
-        
+
         this.numberOfdoors = numberOfdoors;
         this.feulType = feulType;
         this.transmissionType = transmissionType;
         this.passengerType = passengerType;
-        
+
     }
 
     @Override
@@ -171,26 +169,28 @@ class Car extends VehicleRental {
 
 }
 
-abstract class Truck extends VehicleRental {
+class Truck extends VehicleRental {
 
     private double loadCapacity;
     private String truckType;
+    private double height;
 
-    public Truck(double loadCapacity, String truckType, double height, String vehicleid, String brand, String model, double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
-        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
-        
+    public Truck(double loadCapacity, String truckType, double height, String vehicleid, String brand, String model,
+            double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
+
         if (loadCapacity <= 0 || loadCapacity > 40) {
             throw new IllegalArgumentException("loadCapacity must be between 0 and 40 tons");
         }
         if (height <= 0 || height > 4.5) {
             throw new IllegalArgumentException("height must be between 0 and 4.5 meters!");
         }
+        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
+
         this.loadCapacity = loadCapacity;
         this.truckType = truckType;
         this.height = height;
-    
+
     }
-    private double height;
 
     @Override
     public String getVehicleType() {
