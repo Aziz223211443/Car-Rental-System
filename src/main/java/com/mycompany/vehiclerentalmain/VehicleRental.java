@@ -127,25 +127,25 @@ abstract class VehicleRental {
 class Car extends VehicleRental {
 
     private int numberOfdoors;
-    private String feulType;
+    private String fuelType;
     private String transmissionType;
     private String passengerType; //suv,sedan...
 
-    public Car(int numberOfdoors, String feulType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay,
+    public Car(int numberOfdoors, String fuelType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay,
             String availabilityStatus, int year, String color, double mileage) {
 
         if (numberOfdoors < 2 || numberOfdoors > 4) {
             throw new IllegalArgumentException("Invalid number of doors, must be between 2 and 4");
         }
 
-        if (!feulType.equalsIgnoreCase("petrol") && !feulType.equalsIgnoreCase("Deisel") && !feulType.equalsIgnoreCase("Electric")) {
+        if (!fuelType.equalsIgnoreCase("petrol") && !fuelType.equalsIgnoreCase("Deisel") && !fuelType.equalsIgnoreCase("Electric")) {
             throw new IllegalArgumentException("Feul type must be Petrol, Diesel or Electric!");
         }
 
         super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
 
         this.numberOfdoors = numberOfdoors;
-        this.feulType = feulType;
+        this.fuelType = fuelType;
         this.transmissionType = transmissionType;
         this.passengerType = passengerType;
 
@@ -164,7 +164,7 @@ class Car extends VehicleRental {
 
     @Override
     public String toString() {
-        return "Car{" + "numberOfdoors=" + numberOfdoors + ", feulType=" + feulType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
+        return "Car{" + "numberOfdoors=" + numberOfdoors + ", fuelType=" + fuelType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
     }
 
 }
