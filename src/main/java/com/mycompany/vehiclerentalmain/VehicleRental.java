@@ -220,6 +220,9 @@ class Bike extends VehicleRental {
         if (!engineType.equalsIgnoreCase("Gas") && !engineType.equalsIgnoreCase("Electric")) {
             throw new IllegalArgumentException("Engine type must be Gas or Electric");
         }
+         if(!bikeType.equalsIgnoreCase("Sport") && !bikeType.equalsIgnoreCase("Cruiser") && !bikeType.equalsIgnoreCase("Roadster")){
+            throw new IllegalArgumentException("Bike type must be Sport, Cruiser or Roadster!");
+        }
 
         this.engineCapacity = engineCapacity;
         this.bikeType = bikeType;
@@ -247,4 +250,5 @@ class Bike extends VehicleRental {
     }
 
 }
+
 
