@@ -204,3 +204,47 @@ class Truck extends VehicleRental {
         return cost;
     }
 }
+class Bike extends VehicleRental {
+
+    private int engineCapacity; // if gas
+    private String bikeType;
+    private String engineType; //gas or electric
+    private boolean hasGear;
+
+    public Bike(int engineCapacity, String bikeType, String engineType, boolean hasGear, String vehicleid, String brand, String model, double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
+        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
+
+        if (engineCapacity < 50 || engineCapacity > 2500) {
+            throw new IllegalArgumentException("Engine capacity must be between 50 and 2500 cc!");
+        }
+        if (!engineType.equalsIgnoreCase("Gas") && !engineType.equalsIgnoreCase("Electric")) {
+            throw new IllegalArgumentException("Engine type must be Gas or Electric");
+        }
+
+        this.engineCapacity = engineCapacity;
+        this.bikeType = bikeType;
+        this.engineType = engineType;
+        this.hasGear = hasGear;
+    }
+
+    @Override
+    public String getVehicleType() {
+       return "Bike";
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+       double cost = getRentalPricePerDay() * days;
+       
+       if(engineCapacity > 600) cost *= 1.2;
+       if(bikeType.equalsIgnoreCase("Sport")) cost *= 1.15;
+       return cost;
+    }
+
+    @Override
+    public String toString() {
+        return "Bike{" + "engineCapacity=" + engineCapacity + ", bikeType=" + bikeType + ", engineType=" + engineType + ", hasGear=" + hasGear + '}';
+    }
+
+}
+
