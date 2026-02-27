@@ -17,6 +17,19 @@ abstract class VehicleRental {
     private double mileage;  //in km
 
     public VehicleRental(String vehicleid, String brand, String model, double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
+
+        if (vehicleid == null) {
+            throw new IllegalArgumentException("Vehicle ID cannot be empty!");
+        }
+        if (rentalPricePerDay <= 0) {
+            throw new IllegalArgumentException("Rental Price must be positive!");
+        }
+        if (year < 1990 || year > 2026) {
+            throw new IllegalArgumentException("Invalid Manufacture Year!");
+        }
+        if (mileage < 0) {
+            throw new IllegalArgumentException("Mileage cannot be negative!");
+        }
         this.vehicleid = vehicleid;
         this.brand = brand;
         this.model = model;
@@ -25,20 +38,6 @@ abstract class VehicleRental {
         this.year = year;
         this.color = color;
         this.mileage = mileage;
-
-        if (vehicleid == null) {
-            System.out.println("Vehicle ID cannot be empty!");
-        }
-        if (rentalPricePerDay <= 0) {
-            System.out.println("Rental Price must be positive!");
-        }
-        if (year < 1990 || year > 2026) {
-            System.out.println("Invalid Manufacture Year!");
-        }
-        if (mileage < 0) {
-            System.out.println("Mileage cannot be negative!");
-        }
-
     }
 
     public void setVehicleid(String vehicleid) {
@@ -61,7 +60,7 @@ abstract class VehicleRental {
         if (status.equals("Available") || status.equals("Rented")) {
             this.availabilityStatus = status;
         } else {
-            System.out.println("Status must be available or rented!");
+            throw new IllegalArgumentException("Status must be available or rented!");
         }
 
     }
@@ -76,7 +75,7 @@ abstract class VehicleRental {
 
     public void setMileage(double mileage) {
         if (mileage < this.mileage) {
-            System.out.println("Mileage cannot decrease!");
+            throw new IllegalArgumentException("Mileage cannot decrease!");
         }
 
         this.mileage = mileage;
@@ -116,7 +115,7 @@ abstract class VehicleRental {
 
     public abstract String getVehicleType();
 
-    public abstract double calculateRentalCost();
+    public abstract double calculateRentalCost(int days);
 
     @Override
     public String toString() {
@@ -132,21 +131,26 @@ class Car extends VehicleRental {
     private String transmissionType;
     private String passengerType; //suv,sedan...
 
-    public Car(int numberOfdoors, String feulType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
+    public Car(int numberOfdoors, String feulType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay,
+            String availabilityStatus, int year, String color, double mileage) {
+        
+        
+        if (numberOfdoors < 2 || numberOfdoors > 4) {
+            throw new IllegalArgumentException("Invalid number of doors, must be between 2 and 4");
+        }
+
+        if (!feulType.equalsIgnoreCase("petrol") && !feulType.equalsIgnoreCase("Deisel") && !feulType.equalsIgnoreCase("Electric")) {
+            throw new IllegalArgumentException("Feul type must be Petrol, Diesel or Electric!");
+        }
+        
+        
         super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
+        
         this.numberOfdoors = numberOfdoors;
         this.feulType = feulType;
         this.transmissionType = transmissionType;
         this.passengerType = passengerType;
-
-        if (numberOfdoors < 2 || numberOfdoors > 4) {
-            System.out.println("Invalid number of doors, must be between 2 and 4");
-        }
-
-        if (feulType != "Petrol" && feulType != "Diesel" && feulType != "Electric" && feulType != "Hybrid") {
-            System.out.println("Feul type must be Petrol, Diesel, Electric, Hybrid!");
-        }
-
+        
     }
 
     @Override
@@ -154,6 +158,7 @@ class Car extends VehicleRental {
         return "Car";
     }
 
+    @Override
     public double calculateRentalCost(int days) {
         double cost = getRentalPricePerDay() * days;
         return cost;
@@ -162,5 +167,40 @@ class Car extends VehicleRental {
     @Override
     public String toString() {
         return "Car{" + "numberOfdoors=" + numberOfdoors + ", feulType=" + feulType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
+    }
+
+}
+
+abstract class Truck extends VehicleRental {
+
+    private double loadCapacity;
+    private String truckType;
+
+    public Truck(double loadCapacity, String truckType, double height, String vehicleid, String brand, String model, double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
+        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
+        
+        if (loadCapacity <= 0 || loadCapacity > 40) {
+            throw new IllegalArgumentException("loadCapacity must be between 0 and 40 tons");
+        }
+        if (height <= 0 || height > 4.5) {
+            throw new IllegalArgumentException("height must be between 0 and 4.5 meters!");
+        }
+        this.loadCapacity = loadCapacity;
+        this.truckType = truckType;
+        this.height = height;
+    
+    }
+    private double height;
+
+    @Override
+    public String getVehicleType() {
+        return "Truck";
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        double cost = getRentalPricePerDay() * days;
+        cost += loadCapacity * 2 * days;
+        return cost;
     }
 }
