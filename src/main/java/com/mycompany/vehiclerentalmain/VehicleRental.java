@@ -252,3 +252,91 @@ class Bike extends VehicleRental {
 }
 
 
+// ""NOTICE"" From here its a new .java file named VehicleRentalSystem
+package com.mycompany.vehiclerentalmain;
+
+import java.util.ArrayList;
+
+//This is R1 ⬇️ to store veihcles 
+public class VehicleRentalSystem
+{
+    private ArrayList<VehicleRental> vehicles;
+
+    public VehicleRentalSystem() {
+        this.vehicles = new ArrayList<>();
+    }
+    public void addVehicle(VehicleRental v)
+    {
+        vehicles.add(v);
+    }
+    
+    //now here are the methods for R3
+    public void viewAllVehciels()
+    {
+        if(vehicles.size() == 0 )
+        {
+            System.out.println("There are no vehicles add yet");
+        return;
+        }
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            System.out.println(vehicles.get(i));
+        }
+    }
+    public void viewAllAvailableCars()
+    {
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Available"))
+                System.out.println(vehicles.get(i));
+        }
+    }
+    
+    public void viewRentedCars()
+    {
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Rented"))
+                System.out.println(vehicles.get(i));
+        }
+    }
+    
+    public void filterByPrice(double price)
+    {
+        for(int i = 0; i< vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getRentalPricePerDay() <= price)
+                System.out.println(vehicles.get(i));
+        }
+    }
+    
+    public void filterbyBrand(String brand)
+    {
+        for(int i = 0; i< vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getBrand().equalsIgnoreCase(brand))
+                System.out.println(vehicles.get(i));
+        }
+    }
+    
+    public void filterbyYear(int year)
+    {
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getYear() == year)
+                System.out.println(vehicles.get(i));
+        }
+    }
+    
+    public void fitlerBycolor(String color)
+    {
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getColor().equalsIgnoreCase(color))
+                System.out.println(vehicles.get(i));
+        }
+    }
+}
+
+// Fayadh will continue R3 when R6 is Done <----- (important)
+
