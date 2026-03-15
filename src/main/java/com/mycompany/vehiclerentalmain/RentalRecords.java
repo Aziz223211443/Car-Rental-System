@@ -4,10 +4,10 @@ package com.mycompany.vehiclerentalmain;
 public class RentalRecords 
 {
     private String recordID;
-    private final VehicleRental vehicle;
+    private VehicleRental vehicle;
     private String customerName;
     private int rentalDays;
-    private final double totalCost;
+    private double totalCost;
     private boolean active;
 
     public RentalRecords(String recordID, VehicleRental vehicle, String customerName, int rentalDays, double totalCost, boolean active) 
