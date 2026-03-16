@@ -4,6 +4,8 @@
  */
 package com.mycompany.vehiclerentalmain;
 
+import java.util.ArrayList;
+
 abstract class VehicleRental {
 
     private String vehicleid;
@@ -133,6 +135,8 @@ class Car extends VehicleRental {
 
     public Car(int numberOfdoors, String fuelType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay,
             String availabilityStatus, int year, String color, double mileage) {
+        
+        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
 
         if (numberOfdoors < 2 || numberOfdoors > 4) {
             throw new IllegalArgumentException("Invalid number of doors, must be between 2 and 4");
@@ -142,7 +146,6 @@ class Car extends VehicleRental {
             throw new IllegalArgumentException("Feul type must be Petrol, Diesel or Electric!");
         }
 
-        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
 
         this.numberOfdoors = numberOfdoors;
         this.fuelType = fuelType;
@@ -178,13 +181,14 @@ class Truck extends VehicleRental {
     public Truck(double loadCapacity, String truckType, double height, String vehicleid, String brand, String model,
             double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
 
+        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
+        
         if (loadCapacity <= 0 || loadCapacity > 40) {
             throw new IllegalArgumentException("loadCapacity must be between 0 and 40 tons");
         }
         if (height <= 0 || height > 4.5) {
             throw new IllegalArgumentException("height must be between 0 and 4.5 meters!");
         }
-        super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
 
         this.loadCapacity = loadCapacity;
         this.truckType = truckType;
@@ -248,6 +252,188 @@ class Bike extends VehicleRental {
     public String toString() {
         return "Bike{" + "engineCapacity=" + engineCapacity + ", bikeType=" + bikeType + ", engineType=" + engineType + ", hasGear=" + hasGear + '}';
     }
+    
+    public class VehicleRentalSystem
+{
+    private ArrayList<VehicleRental> vehicles;
+
+    public VehicleRentalSystem() 
+    {
+        this.vehicles = new ArrayList<>();
+    }
+    public void addVehicle(VehicleRental v)
+    {
+        vehicles.add(v);
+    }
+    
+    
+    //now here is the beginning of R3 ⬇️
+    public void viewAllVehciels()
+    {
+        if(vehicles.size() == 0 )
+        {
+            System.out.println("There are no vehicles add yet");
+        return;
+        }
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            System.out.println(vehicles.get(i));
+        }
+    }
+    public void viewAllAvailableCars()
+    {
+        boolean found = false;
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Available"))
+                System.out.println(vehicles.get(i));
+            found = true;
+        }
+        if(!found)
+            System.out.println("There are no available cars");
+    }
+    
+    public void viewRentedCars()
+    {
+        boolean found = false;
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Rented"))
+                System.out.println(vehicles.get(i));
+            found = true;
+        }
+        if(!found)
+            System.out.println("There are no rented cars");
+    }
+    
+    public void filterByPrice(double price)
+    {
+        boolean found = false;
+        for(int i = 0; i< vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getRentalPricePerDay() <= price)
+                System.out.println(vehicles.get(i));
+            found = true;
+        }
+        if(!found)
+            System.out.println("There are no cars by this price");
+    }
+    
+    public void filterbyBrand(String brand)
+    {
+        boolean found = false;
+        for(int i = 0; i< vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getBrand().equalsIgnoreCase(brand))
+                System.out.println(vehicles.get(i));
+            found = true;
+        }
+        if(!found)
+            System.out.println("There are no cars by this brand");
+    }
+    
+    public void filterbyYear(int year)
+    {
+        boolean found = false;
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getYear() == year)
+                System.out.println(vehicles.get(i));
+            found = true;
+        }
+        if(!found)
+            System.out.println("There are no cars by this year");
+    }
+    
+    public void fitlerBycolor(String color)
+    {
+        boolean found = false;
+        for(int i = 0; i < vehicles.size(); i++)
+        {
+            if(vehicles.get(i).getColor().equalsIgnoreCase(color))
+                System.out.println(vehicles.get(i));
+            found = true;
+        }
+        if(!found)
+            System.out.println("There are no cars by this color");
+    }
+}
+
+// Fayadh will continue R3 when R6 is Done <----- (important)
+
+    
+    // RentalRecords class is the R6 <---------
+public class RentalRecords 
+{
+    private String recordID;
+    private final VehicleRental vehicle;
+    private String customerName;
+    private int rentalDays;
+    private final double totalCost;
+    private boolean active;
+
+    public RentalRecords(String recordID, VehicleRental vehicle, String customerName, int rentalDays, double totalCost, boolean active) 
+    {
+        if(recordID == null)
+            throw new IllegalArgumentException("The recordID cannot be null.");
+        else this.recordID = recordID;
+        
+        this.vehicle = vehicle;
+        
+        if(customerName == null || customerName.isBlank())
+            throw new IllegalArgumentException("The customer name cannot be empty.");
+        else this.customerName = customerName;
+        
+        if(rentalDays <= 0)
+            throw new IllegalArgumentException("The rental days must be more than zero.");
+        else this.rentalDays = rentalDays;
+        
+        this.totalCost = totalCost;
+        this.active = active;
+    }
+
+    public String getRecordID() {
+        return recordID;
+    }
+
+    public VehicleRental getVehicle() {
+        return vehicle;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public int getRentalDays() {
+        return rentalDays;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    @Override
+    public String toString() 
+    {
+        return "Rental Record\n" +
+           "---------------------\n" +
+           "Record ID: " + recordID + "\n" +
+           "Vehicle ID: " + vehicle.getVehicleid() + "\n" +
+           "Customer Name: " + customerName + "\n" +
+           "Rental Days: " + rentalDays + "\n" +
+           "Total Cost: " + totalCost + "\n" +
+           "Active?: " + active + "\n";
+    }
+    
+}
 
 }
 
