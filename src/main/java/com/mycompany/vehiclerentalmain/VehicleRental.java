@@ -252,22 +252,22 @@ class Bike extends VehicleRental {
     public String toString() {
         return "Bike{" + "engineCapacity=" + engineCapacity + ", bikeType=" + bikeType + ", engineType=" + engineType + ", hasGear=" + hasGear + '}';
     }
-    
-    public class VehicleRentalSystem
+}
+    //now here is the beginning of R3 ⬇️
+     class VehicleRentalSystem
 {
     private ArrayList<VehicleRental> vehicles;
-
+    private ArrayList<RentalRecords> records;
     public VehicleRentalSystem() 
     {
         this.vehicles = new ArrayList<>();
+        this.records = new ArrayList<>();       // <-------- in R4 we will add the records.add method
     }
     public void addVehicle(VehicleRental v)
     {
         vehicles.add(v);
     }
     
-    
-    //now here is the beginning of R3 ⬇️
     public void viewAllVehciels()
     {
         if(vehicles.size() == 0 )
@@ -286,10 +286,12 @@ class Bike extends VehicleRental {
         for(int i = 0; i < vehicles.size(); i++)
         {
             if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Available"))
+            {
                 System.out.println(vehicles.get(i));
             found = true;
+            }
         }
-        if(!found)
+        if(found == false)
             System.out.println("There are no available cars");
     }
     
@@ -299,10 +301,12 @@ class Bike extends VehicleRental {
         for(int i = 0; i < vehicles.size(); i++)
         {
             if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Rented"))
+            {
                 System.out.println(vehicles.get(i));
             found = true;
+            }
         }
-        if(!found)
+        if(found == false)
             System.out.println("There are no rented cars");
     }
     
@@ -312,10 +316,12 @@ class Bike extends VehicleRental {
         for(int i = 0; i< vehicles.size(); i++)
         {
             if(vehicles.get(i).getRentalPricePerDay() <= price)
+            {
                 System.out.println(vehicles.get(i));
             found = true;
+            }
         }
-        if(!found)
+        if(found == false)
             System.out.println("There are no cars by this price");
     }
     
@@ -325,10 +331,12 @@ class Bike extends VehicleRental {
         for(int i = 0; i< vehicles.size(); i++)
         {
             if(vehicles.get(i).getBrand().equalsIgnoreCase(brand))
+            {
                 System.out.println(vehicles.get(i));
             found = true;
+            }
         }
-        if(!found)
+        if(found == false)
             System.out.println("There are no cars by this brand");
     }
     
@@ -338,10 +346,12 @@ class Bike extends VehicleRental {
         for(int i = 0; i < vehicles.size(); i++)
         {
             if(vehicles.get(i).getYear() == year)
+            {
                 System.out.println(vehicles.get(i));
             found = true;
+            }
         }
-        if(!found)
+        if(found == false)
             System.out.println("There are no cars by this year");
     }
     
@@ -351,19 +361,79 @@ class Bike extends VehicleRental {
         for(int i = 0; i < vehicles.size(); i++)
         {
             if(vehicles.get(i).getColor().equalsIgnoreCase(color))
+            {
                 System.out.println(vehicles.get(i));
             found = true;
+            }
         }
-        if(!found)
+        if(found == false)
             System.out.println("There are no cars by this color");
+    }
+    
+    public void viewAllRecords()
+    {
+        if(records.size() == 0)
+        {
+            System.out.println("There are no rental records added yet.");
+        return;
+        }
+        for(int i = 0; i < records.size(); i++)
+        {
+            System.out.println(records.get(i));
+        }
+    }
+    
+    public void filterByCustomerName(String name)
+    {
+        boolean found = false;
+        for( int i = 0; i < records.size(); i++)
+        {
+            if(records.get(i).getCustomerName().equalsIgnoreCase(name))
+            {
+                System.out.println(records.get(i));
+            found = true;
+            }
+        }
+        if(found == false)
+            System.out.println("There are no customer by this name.");
+    }
+    
+    public void filterByActiveStatus(boolean status)
+    {
+        boolean found = false;
+        for(int i = 0; i < records.size(); i++)
+        {
+            if(records.get(i).isActive() == status)
+            {
+                System.out.println(records.get(i));
+                found = true;
+            }
+        }
+        
+        if(found == false)
+            System.out.println("There are no records that are active");
+    }
+    
+    public void filterByRentalDays(int days)
+    {
+        boolean found = false;
+        for(int i = 0; i < records.size(); i++)
+        {
+            if(records.get(i).getRentalDays() == days)
+            {
+                System.out.println(records.get(i));
+                found = true;
+            }
+            
+        }
+        if(found == false)
+            System.out.println("There are no records by this number of days.");
     }
 }
 
-// Fayadh will continue R3 when R6 is Done <----- (important)
-
     
-    // RentalRecords class is the R6 <---------
-public class RentalRecords 
+    // RentalRecords class is the R6 ⬇️  <---------
+ class RentalRecords 
 {
     private String recordID;
     private final VehicleRental vehicle;
@@ -435,5 +505,5 @@ public class RentalRecords
     
 }
 
-}
+
 
