@@ -502,7 +502,62 @@ class Bike extends VehicleRental {
            "Total Cost: " + totalCost + "\n" +
            "Active?: " + active + "\n";
     }
+
     
+    // method to rent a vehicle (R4)
+    public static void rentVehicle(ArrayList<VehicleRental> vehicles, String id) {
+
+        for (int i = 0; i < vehicles.size(); i++) {
+
+            VehicleRental v = vehicles.get(i);
+
+            if (v.getVehicleid().equals(id)) {
+
+                if (v.getAvailabilityStatus().equals("Available")) {
+
+                    v.setAvailabilityStatus("Rented");
+                    System.out.println("Vehicle rented successfully!");
+
+                } else {
+                    System.out.println("Vehicle is already rented!");
+                }
+
+                return;
+            }
+        }
+
+        System.out.println("Vehicle not found!");
+    }
+
+    // method to return a vehicle (R5)
+    public static void returnVehicle(ArrayList<VehicleRental> vehicles, String id) {
+
+        
+        for (int i = 0; i < vehicles.size(); i++) {
+
+    
+            VehicleRental v = vehicles.get(i);
+
+            
+            if (v.getVehicleid().equals(id)) {
+
+                
+                if (v.getAvailabilityStatus().equals("Rented")) {
+
+                   
+                    v.setAvailabilityStatus("Available");
+                    System.out.println("Vehicle returned successfully!");
+
+                } else {
+                    System.out.println("Vehicle is already available!");
+                }
+
+                return;
+            }
+        }
+
+        System.out.println("Vehicle not found!");
+    }
 }
 
 
