@@ -291,7 +291,7 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no available cars");
     }
     
@@ -306,7 +306,7 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no rented cars");
     }
     
@@ -321,7 +321,7 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no cars by this price");
     }
     
@@ -336,7 +336,7 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no cars by this brand");
     }
     
@@ -351,7 +351,7 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no cars by this year");
     }
     
@@ -366,13 +366,13 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no cars by this color");
     }
     
     public void viewAllRecords()
     {
-        if(records.size() == 0)
+        if(records.isEmpty())
         {
             System.out.println("There are no rental records added yet.");
         return;
@@ -394,7 +394,7 @@ class Bike extends VehicleRental {
             found = true;
             }
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no customer by this name.");
     }
     
@@ -410,7 +410,7 @@ class Bike extends VehicleRental {
             }
         }
         
-        if(found == false)
+        if(!found)
             System.out.println("There are no records that are active");
     }
     
@@ -426,8 +426,9 @@ class Bike extends VehicleRental {
             }
             
         }
-        if(found == false)
+        if(!found)
             System.out.println("There are no records by this number of days.");
+        
     }
 }
 
@@ -559,6 +560,5 @@ class Bike extends VehicleRental {
         System.out.println("Vehicle not found!");
     }
 }
-
 
 
