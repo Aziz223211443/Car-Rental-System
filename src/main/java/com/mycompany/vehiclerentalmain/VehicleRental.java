@@ -207,6 +207,10 @@ class Truck extends VehicleRental {
         cost += loadCapacity * 2 * days;
         return cost;
     }
+     @Override
+    public String toString() {
+        return super.toString()+ "Truck{" + "loadCapacity=" + loadCapacity + ", truckType=" + truckType + ", height=" + height + '}';
+    }
 }
 class Bike extends VehicleRental {
 
