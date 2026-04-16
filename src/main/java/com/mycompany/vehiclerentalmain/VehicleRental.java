@@ -5,6 +5,7 @@
 package com.mycompany.vehiclerentalmain;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 abstract class VehicleRental {
 
@@ -121,7 +122,7 @@ abstract class VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString()+ "VehicleRental{" + "vehicleid=" + vehicleid + ", brand=" + brand + ", model=" + model + ", rentalPricePerDay=" + rentalPricePerDay + ", availabilityStatus=" + availabilityStatus + ", year=" + year + ", color=" + color + ", mileage=" + mileage + '}';
+        return super.toString() + "VehicleRental{" + "vehicleid=" + vehicleid + ", brand=" + brand + ", model=" + model + ", rentalPricePerDay=" + rentalPricePerDay + ", availabilityStatus=" + availabilityStatus + ", year=" + year + ", color=" + color + ", mileage=" + mileage + '}';
     }
 
 }
@@ -135,17 +136,16 @@ class Car extends VehicleRental {
 
     public Car(int numberOfdoors, String fuelType, String transmissionType, String passengerType, String vehicleid, String brand, String model, double rentalPricePerDay,
             String availabilityStatus, int year, String color, double mileage) {
-        
+
         super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
 
         if (numberOfdoors < 2 || numberOfdoors > 4) {
             throw new IllegalArgumentException("Invalid number of doors, must be between 2 and 4");
         }
 
-        if (!fuelType.equalsIgnoreCase("petrol") && !fuelType.equalsIgnoreCase("Deisel") && !fuelType.equalsIgnoreCase("Electric")) {
-            throw new IllegalArgumentException("Feul type must be Petrol, Diesel or Electric!");
+        if (!fuelType.equalsIgnoreCase("petrol") && !fuelType.equalsIgnoreCase("Diesel") && !fuelType.equalsIgnoreCase("Electric")) {
+            throw new IllegalArgumentException("Fuel type must be Petrol, Diesel or Electric!");
         }
-
 
         this.numberOfdoors = numberOfdoors;
         this.fuelType = fuelType;
@@ -167,7 +167,7 @@ class Car extends VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString()+ "Car{" + "numberOfdoors=" + numberOfdoors + ", fuelType=" + fuelType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
+        return  "Car{" + "numberOfdoors=" + numberOfdoors + ", fuelType=" + fuelType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
     }
 
 }
@@ -182,7 +182,7 @@ class Truck extends VehicleRental {
             double rentalPricePerDay, String availabilityStatus, int year, String color, double mileage) {
 
         super(vehicleid, brand, model, rentalPricePerDay, availabilityStatus, year, color, mileage);
-        
+
         if (loadCapacity <= 0 || loadCapacity > 40) {
             throw new IllegalArgumentException("loadCapacity must be between 0 and 40 tons");
         }
@@ -207,11 +207,14 @@ class Truck extends VehicleRental {
         cost += loadCapacity * 2 * days;
         return cost;
     }
-     @Override
+
+    @Override
     public String toString() {
-        return super.toString()+ "Truck{" + "loadCapacity=" + loadCapacity + ", truckType=" + truckType + ", height=" + height + '}';
+        return  "Truck{" + "loadCapacity=" + loadCapacity + ", truckType=" + truckType + ", height=" + height + '}';
     }
+
 }
+
 class Bike extends VehicleRental {
 
     private int engineCapacity; // if gas
@@ -228,7 +231,7 @@ class Bike extends VehicleRental {
         if (!engineType.equalsIgnoreCase("Gas") && !engineType.equalsIgnoreCase("Electric")) {
             throw new IllegalArgumentException("Engine type must be Gas or Electric");
         }
-         if(!bikeType.equalsIgnoreCase("Sport") && !bikeType.equalsIgnoreCase("Cruiser") && !bikeType.equalsIgnoreCase("Roadster")){
+        if (!bikeType.equalsIgnoreCase("Sport") && !bikeType.equalsIgnoreCase("Cruiser") && !bikeType.equalsIgnoreCase("Roadster")) {
             throw new IllegalArgumentException("Bike type must be Sport, Cruiser or Roadster!");
         }
 
@@ -240,206 +243,192 @@ class Bike extends VehicleRental {
 
     @Override
     public String getVehicleType() {
-       return "Bike";
+        return "Bike";
     }
 
     @Override
     public double calculateRentalCost(int days) {
-       double cost = getRentalPricePerDay() * days;
-       
-       if(engineCapacity > 600) cost *= 1.2;
-       if(bikeType.equalsIgnoreCase("Sport")) cost *= 1.15;
-       return cost;
+        double cost = getRentalPricePerDay() * days;
+
+        if (engineCapacity > 600) {
+            cost *= 1.2;
+        }
+        if (bikeType.equalsIgnoreCase("Sport")) {
+            cost *= 1.15;
+        }
+        return cost;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "Bike{" + "engineCapacity=" + engineCapacity + ", bikeType=" + bikeType + ", engineType=" + engineType + ", hasGear=" + hasGear + '}';
+        return  "Bike{" + "engineCapacity=" + engineCapacity + ", bikeType=" + bikeType + ", engineType=" + engineType + ", hasGear=" + hasGear + '}';
     }
 }
-    //now here is the beginning of R3 ⬇️
-     class VehicleRentalSystem
-{
-    private ArrayList<VehicleRental> vehicles;
+       //R3️
+
+class VehicleRentalSystem {
+
+    ArrayList<VehicleRental> vehicles;
     private ArrayList<RentalRecords> records;
-    public VehicleRentalSystem() 
-    {
+
+    public VehicleRentalSystem() {
         this.vehicles = new ArrayList<>();
-        this.records = new ArrayList<>();       // <-------- in R4 we will add the records.add method
+        this.records = new ArrayList<>();
+
     }
-    public void addVehicle(VehicleRental v)
-    {
+
+    public ArrayList<VehicleRental> getVehicles() {
+        return new ArrayList<>(vehicles);
+    }
+
+    public void addVehicle(VehicleRental v) {
         vehicles.add(v);
     }
-    
-    public void viewAllVehciels()
-    {
-        if(vehicles.size() == 0 )
-        {
+
+    public void viewAllVehciels() {
+        if (vehicles.size() == 0) {
             System.out.println("There are no vehicles add yet");
-        return;
+            return;
         }
-        for(int i = 0; i < vehicles.size(); i++)
-        {
+        for (int i = 0; i < vehicles.size(); i++) {
             System.out.println(vehicles.get(i));
         }
     }
-    public void viewAllAvailableCars()
-    {
+
+    public void viewAllAvailableCars() {
         boolean found = false;
-        for(int i = 0; i < vehicles.size(); i++)
-        {
-            if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Available"))
-            {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Available")) {
                 System.out.println(vehicles.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no available cars");
+        }
     }
-    
-    public void viewRentedCars()
-    {
+
+    public void viewRentedCars() {
         boolean found = false;
-        for(int i = 0; i < vehicles.size(); i++)
-        {
-            if(vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Rented"))
-            {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getAvailabilityStatus().equalsIgnoreCase("Rented")) {
                 System.out.println(vehicles.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no rented cars");
+        }
     }
-    
-    public void filterByPrice(double price)
-    {
+
+    public void filterByPrice(double price) {
         boolean found = false;
-        for(int i = 0; i< vehicles.size(); i++)
-        {
-            if(vehicles.get(i).getRentalPricePerDay() <= price)
-            {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getRentalPricePerDay() <= price) {
                 System.out.println(vehicles.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no cars by this price");
+        }
     }
-    
-    public void filterbyBrand(String brand)
-    {
+
+    public void filterbyBrand(String brand) {
         boolean found = false;
-        for(int i = 0; i< vehicles.size(); i++)
-        {
-            if(vehicles.get(i).getBrand().equalsIgnoreCase(brand))
-            {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getBrand().equalsIgnoreCase(brand)) {
                 System.out.println(vehicles.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no cars by this brand");
+        }
     }
-    
-    public void filterbyYear(int year)
-    {
+
+    public void filterbyYear(int year) {
         boolean found = false;
-        for(int i = 0; i < vehicles.size(); i++)
-        {
-            if(vehicles.get(i).getYear() == year)
-            {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getYear() == year) {
                 System.out.println(vehicles.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no cars by this year");
+        }
     }
-    
-    public void fitlerBycolor(String color)
-    {
+
+    public void fitlerBycolor(String color) {
         boolean found = false;
-        for(int i = 0; i < vehicles.size(); i++)
-        {
-            if(vehicles.get(i).getColor().equalsIgnoreCase(color))
-            {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getColor().equalsIgnoreCase(color)) {
                 System.out.println(vehicles.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no cars by this color");
-    }
-    
-    public void viewAllRecords()
-    {
-        if(records.isEmpty())
-        {
-            System.out.println("There are no rental records added yet.");
-        return;
         }
-        for(int i = 0; i < records.size(); i++)
-        {
+    }
+
+    public void viewAllRecords() {
+        if (records.isEmpty()) {
+            System.out.println("There are no rental records added yet.");
+            return;
+        }
+        for (int i = 0; i < records.size(); i++) {
             System.out.println(records.get(i));
         }
     }
-    
-    public void filterByCustomerName(String name)
-    {
+
+    public void filterByCustomerName(String name) {
         boolean found = false;
-        for( int i = 0; i < records.size(); i++)
-        {
-            if(records.get(i).getCustomerName().equalsIgnoreCase(name))
-            {
+        for (int i = 0; i < records.size(); i++) {
+            if (records.get(i).getCustomerName().equalsIgnoreCase(name)) {
                 System.out.println(records.get(i));
-            found = true;
+                found = true;
             }
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no customer by this name.");
+        }
     }
-    
-    public void filterByActiveStatus(boolean status)
-    {
+
+    public void filterByActiveStatus(boolean status) {
         boolean found = false;
-        for(int i = 0; i < records.size(); i++)
-        {
-            if(records.get(i).isActive() == status)
-            {
+        for (int i = 0; i < records.size(); i++) {
+            if (records.get(i).isActive() == status) {
                 System.out.println(records.get(i));
                 found = true;
             }
         }
-        
-        if(!found)
+
+        if (!found) {
             System.out.println("There are no records that are active");
+        }
     }
-    
-    public void filterByRentalDays(int days)
-    {
+
+    public void filterByRentalDays(int days) {
         boolean found = false;
-        for(int i = 0; i < records.size(); i++)
-        {
-            if(records.get(i).getRentalDays() == days)
-            {
+        for (int i = 0; i < records.size(); i++) {
+            if (records.get(i).getRentalDays() == days) {
                 System.out.println(records.get(i));
                 found = true;
             }
-            
+
         }
-        if(!found)
+        if (!found) {
             System.out.println("There are no records by this number of days.");
-        
+        }
+
     }
 }
 
-    
-    // RentalRecords class is the R6 ⬇️  <---------
- class RentalRecords 
-{
+// R6
+class RentalRecords {
+
     private String recordID;
     private final VehicleRental vehicle;
     private String customerName;
@@ -447,22 +436,27 @@ class Bike extends VehicleRental {
     private final double totalCost;
     private boolean active;
 
-    public RentalRecords(String recordID, VehicleRental vehicle, String customerName, int rentalDays, double totalCost, boolean active) 
-    {
-        if(recordID == null)
+    public RentalRecords(String recordID, VehicleRental vehicle, String customerName, int rentalDays, double totalCost, boolean active) {
+        if (recordID == null) {
             throw new IllegalArgumentException("The recordID cannot be null.");
-        else this.recordID = recordID;
-        
+        } else {
+            this.recordID = recordID;
+        }
+
         this.vehicle = vehicle;
-        
-        if(customerName == null || customerName.isBlank())
+
+        if (customerName == null || customerName.isBlank()) {
             throw new IllegalArgumentException("The customer name cannot be empty.");
-        else this.customerName = customerName;
-        
-        if(rentalDays <= 0)
+        } else {
+            this.customerName = customerName;
+        }
+
+        if (rentalDays <= 0) {
             throw new IllegalArgumentException("The rental days must be more than zero.");
-        else this.rentalDays = rentalDays;
-        
+        } else {
+            this.rentalDays = rentalDays;
+        }
+
         this.totalCost = totalCost;
         this.active = active;
     }
@@ -494,21 +488,19 @@ class Bike extends VehicleRental {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
     @Override
-    public String toString() 
-    {
-        return "Rental Record\n" +
-           "---------------------\n" +
-           "Record ID: " + recordID + "\n" +
-           "Vehicle ID: " + vehicle.getVehicleid() + "\n" +
-           "Customer Name: " + customerName + "\n" +
-           "Rental Days: " + rentalDays + "\n" +
-           "Total Cost: " + totalCost + "\n" +
-           "Active?: " + active + "\n";
+    public String toString() {
+        return "Rental Record\n"
+                + "---------------------\n"
+                + "Record ID: " + recordID + "\n"
+                + "Vehicle ID: " + vehicle.getVehicleid() + "\n"
+                + "Customer Name: " + customerName + "\n"
+                + "Rental Days: " + rentalDays + "\n"
+                + "Total Cost: " + totalCost + "\n"
+                + "Active?: " + active + "\n";
     }
 
-    
     // method to rent a vehicle (R4)
     public static void rentVehicle(ArrayList<VehicleRental> vehicles, String id) {
 
@@ -537,19 +529,14 @@ class Bike extends VehicleRental {
     // method to return a vehicle (R5)
     public static void returnVehicle(ArrayList<VehicleRental> vehicles, String id) {
 
-        
         for (int i = 0; i < vehicles.size(); i++) {
 
-    
             VehicleRental v = vehicles.get(i);
 
-            
             if (v.getVehicleid().equals(id)) {
 
-                
                 if (v.getAvailabilityStatus().equals("Rented")) {
 
-                   
                     v.setAvailabilityStatus("Available");
                     System.out.println("Vehicle returned successfully!");
 
@@ -563,6 +550,158 @@ class Bike extends VehicleRental {
 
         System.out.println("Vehicle not found!");
     }
+
 }
 
+public class VehicleRentalMain {
+
+    public static void main(String[] args) {
+
+        VehicleRentalSystem rentalSystem = new VehicleRentalSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        
+        // sample vehicles
+        Car car1 = new Car(4, "Petrol", "Automatic", "Sedan", "C001", "Toyota", "Camry", 50, "Available", 2022, "White", 15000);
+        Car car2 = new Car(2, "Diesel", "Manual", "Coupe", "C002", "Honda", "Civic", 45, "Available", 2021, "Black", 20000);
+        Truck truck1 = new Truck(5, "Box", 3.5, "T001", "Ford", "F-150", 80, "Available", 2020, "Blue", 30000);
+        Bike bike1 = new Bike(600, "Sport", "Gas", true, "B001", "Yamaha", "R6", 60, "Available", 2023, "Red", 5000);
+
+        rentalSystem.addVehicle(car1);
+        rentalSystem.addVehicle(car2);
+        rentalSystem.addVehicle(truck1);
+        rentalSystem.addVehicle(bike1);
+
+        // R8 menue
+        while (true) {
+
+            System.out.println("\n=========================================");
+            System.out.println("      VEHICLE RENTAL SYSTEM MENU");
+            System.out.println("=========================================");
+            System.out.println("1. Add Vehicle");
+            System.out.println("2. View All Vehicles");
+            System.out.println("3. Rent Vehicle");
+            System.out.println("4. Return Vehicle");
+            System.out.println("5. View All Rental Records");
+            System.out.println("6. Exit");
+            System.out.println("=========================================");
+            System.out.print("Enter your choice: ");
+
+            int choice;
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.nextLine();
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- ADD NEW VEHICLE ---");
+                    System.out.print("Enter Vehicle ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Enter Brand: ");
+                    String brand = scanner.nextLine();
+                    System.out.print("Enter Model: ");
+                    String model = scanner.nextLine();
+                    System.out.print("Enter Price per Day: ");
+                    double price = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.print("Enter Year: ");
+                    int year = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Color: ");
+                    String color = scanner.nextLine();
+                    System.out.print("Enter Mileage: ");
+                    double mileage = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.print("Enter Type (Car/Truck/Bike): ");
+                    String type = scanner.nextLine();
+
+                    try {
+                        if (type.equalsIgnoreCase("Car")) {
+                            System.out.print("Enter Number of Doors: ");
+                            int doors = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.print("Enter Fuel Type (Petrol/Diesel/Electric): ");
+                            String fuel = scanner.nextLine();
+                            System.out.print("Enter Transmission (Manual/Automatic): ");
+                            String trans = scanner.nextLine();
+                            System.out.print("Enter Passenger Type (Sedan/SUV/Coupe): ");
+                            String passType = scanner.nextLine();
+                            Car newCar = new Car(doors, fuel, trans, passType, id, brand, model, price, "Available", year, color, mileage);
+                            rentalSystem.addVehicle(newCar);
+                            System.out.println("Car added successfully!");
+                        } else if (type.equalsIgnoreCase("Truck")) {
+                            System.out.print("Enter Load Capacity (tons): ");
+                            double load = scanner.nextDouble();
+                            scanner.nextLine();
+                            System.out.print("Enter Truck Type: ");
+                            String truckType = scanner.nextLine();
+                            System.out.print("Enter Height (meters): ");
+                            double height = scanner.nextDouble();
+                            scanner.nextLine();
+                            Truck newTruck = new Truck(load, truckType, height, id, brand, model, price, "Available", year, color, mileage);
+                            rentalSystem.addVehicle(newTruck);
+                            System.out.println("Truck added successfully!");
+                        } else if (type.equalsIgnoreCase("Bike")) {
+                            System.out.print("Enter Engine Capacity (cc): ");
+                            int engine = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.print("Enter Bike Type (Sport/Cruiser/Roadster): ");
+                            String bikeType = scanner.nextLine();
+                            System.out.print("Enter Engine Type (Gas/Electric): ");
+                            String engineType = scanner.nextLine();
+                            System.out.print("Has Gear? (true/false): ");
+                            boolean hasGear = scanner.nextBoolean();
+                            scanner.nextLine();
+                            Bike newBike = new Bike(engine, bikeType, engineType, hasGear, id, brand, model, price, "Available", year, color, mileage);
+                            rentalSystem.addVehicle(newBike);
+                            System.out.println("Bike added successfully!");
+                        } else {
+                            System.out.println("Invalid vehicle type!");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+
+                case 2:
+                    rentalSystem.viewAllVehciels();
+                    break;
+
+                case 3:
+                    System.out.println("\n--- RENT VEHICLE ---");
+                    rentalSystem.viewAllAvailableCars();
+                    System.out.print("Enter Vehicle ID to rent: ");
+                    String rentId = scanner.nextLine();
+                    RentalRecords.rentVehicle(rentalSystem.getVehicles(), rentId);
+                    break;
+
+                case 4:
+                    System.out.println("\n--- RETURN VEHICLE ---");
+                    rentalSystem.viewRentedCars();
+                    System.out.print("Enter Vehicle ID to return: ");
+                    String returnId = scanner.nextLine();
+                    RentalRecords.returnVehicle(rentalSystem.getVehicles(), returnId);
+                    break;
+
+                case 5:
+                    rentalSystem.viewAllRecords();
+                    break;
+
+                case 6:
+                    System.out.println("Thank you for using Vehicle Rental System!");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please enter a number between 1-6.");
+            }
+        }
+    }
+}
 
