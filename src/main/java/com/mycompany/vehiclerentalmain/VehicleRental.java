@@ -122,7 +122,7 @@ abstract class VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString() + "VehicleRental{" + "vehicleid=" + vehicleid + ", brand=" + brand + ", model=" + model + ", rentalPricePerDay=" + rentalPricePerDay + ", availabilityStatus=" + availabilityStatus + ", year=" + year + ", color=" + color + ", mileage=" + mileage + '}';
+        return  "vehicleid=" + vehicleid + ", brand=" + brand + ", model=" + model + ", rentalPricePerDay=" + rentalPricePerDay + ", availabilityStatus=" + availabilityStatus + ", year=" + year + ", color=" + color + ", mileage=" + mileage;
     }
 
 }
@@ -167,7 +167,7 @@ class Car extends VehicleRental {
 
     @Override
     public String toString() {
-        return  "Car{" + "numberOfdoors=" + numberOfdoors + ", fuelType=" + fuelType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
+        return super.toString() + "Car{" + "numberOfdoors=" + numberOfdoors + ", fuelType=" + fuelType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
     }
 
 }
@@ -703,5 +703,8 @@ public class VehicleRentalMain {
             }
         }
     }
+    
+    // super.toString, Rental days, rental records
+    
+    //FIXING TOSTRING FIRST
 }
-
