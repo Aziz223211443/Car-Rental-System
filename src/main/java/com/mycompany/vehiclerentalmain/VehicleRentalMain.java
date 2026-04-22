@@ -122,7 +122,7 @@ abstract class VehicleRental {
 
     @Override
     public String toString() {
-        return  "vehicleid=" + vehicleid + ", brand=" + brand + ", model=" + model + ", rentalPricePerDay=" + rentalPricePerDay + ", availabilityStatus=" + availabilityStatus + ", year=" + year + ", color=" + color + ", mileage=" + mileage;
+        return  "\n{Vehicle ID= " + vehicleid + ", Brand= " + brand + ", Model=" + model + ", Rental Price Per Day= " + rentalPricePerDay + ",\n Availability Status= " + availabilityStatus + ", Year= " + year + ", Color= " + color + ", Mileage= " + mileage;
     }
 
 }
@@ -167,7 +167,7 @@ class Car extends VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString() + "Car{" + "numberOfdoors=" + numberOfdoors + ", fuelType=" + fuelType + ", transmissionType=" + transmissionType + ", passengerType=" + passengerType + '}';
+        return super.toString() + ", \nNumber of doors= " + numberOfdoors + ", Feul Type= " + fuelType + ", Transmission Type= " + transmissionType + ", Passenger Type= " + passengerType + "} <-- Car";
     }
 
 }
@@ -210,7 +210,7 @@ class Truck extends VehicleRental {
 
     @Override
     public String toString() {
-        return  "Truck{" + "loadCapacity=" + loadCapacity + ", truckType=" + truckType + ", height=" + height + '}';
+        return super.toString() + ", \nLoad Capacity= " + loadCapacity + ", Truck Type= " + truckType + ", Height= " + height + "} <--- Truck";
     }
 
 }
@@ -261,7 +261,7 @@ class Bike extends VehicleRental {
 
     @Override
     public String toString() {
-        return  "Bike{" + "engineCapacity=" + engineCapacity + ", bikeType=" + bikeType + ", engineType=" + engineType + ", hasGear=" + hasGear + '}';
+        return super.toString() + ", \nEngine Capacity= " + engineCapacity + ", Bike Type= " + bikeType + ", Engine Type= " + engineType + ", Has Gear= " + hasGear + "} <--- Bike";
     }
 }
        //R3️
@@ -283,6 +283,10 @@ class VehicleRentalSystem {
 
     public void addVehicle(VehicleRental v) {
         vehicles.add(v);
+    }
+    
+    public void addRecord(RentalRecords r) {
+        records.add(r);
     }
 
     public void viewAllVehciels() {
@@ -675,9 +679,50 @@ public class VehicleRentalMain {
                 case 3:
                     System.out.println("\n--- RENT VEHICLE ---");
                     rentalSystem.viewAllAvailableCars();
-                    System.out.print("Enter Vehicle ID to rent: ");
+                    System.out.print("\nEnter Vehicle ID to rent: ");
                     String rentId = scanner.nextLine();
-                    RentalRecords.rentVehicle(rentalSystem.getVehicles(), rentId);
+                    
+                    boolean found = false;
+                    for(int i = 0; i < rentalSystem.vehicles.size(); i++)
+                    {
+                         VehicleRental v = rentalSystem.vehicles.get(i);
+                         
+                         if(v.getVehicleid().equalsIgnoreCase(rentId))
+                                 {
+                                    if(v.getAvailabilityStatus().equalsIgnoreCase("Available"))
+                                    {
+                                        v.setAvailabilityStatus("Rented");
+                             
+                                        System.out.print("Enter Customer Name: ");
+                                        String customer = scanner.nextLine();
+                             
+                                        System.out.print("Enter Rental days: ");
+                                        int days = scanner.nextInt();
+                                        scanner.nextLine();
+                                        
+                                        double cost = v.calculateRentalCost(days);
+                                        
+                                        RentalRecords record = new RentalRecords("R" + (i + 1), v, customer, days, cost, true);
+                                        
+                                        rentalSystem.addRecord(record);
+                                        
+                                        System.out.println("Vehicle has been rented successfully");
+                                        found = true;
+                                    }   
+                                    
+                                    else
+                                    {
+                                        System.out.println("Vehicle is already rented.");
+                                    }
+                                    
+                                    break;
+                                    
+                                }
+                    }
+                    if(!found) 
+                    {
+                        System.out.println("Vehicle was not found.");
+                    }
                     break;
 
                 case 4:
@@ -704,7 +749,5 @@ public class VehicleRentalMain {
         }
     }
     
-    // super.toString, Rental days, rental records
-    
-    //FIXING TOSTRING FIRST
+
 }
