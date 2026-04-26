@@ -277,6 +277,12 @@ class VehicleRentalSystem {
 
     }
 
+    public ArrayList<RentalRecords> getRecords() {
+        return records;
+    }
+    
+    
+
     public ArrayList<VehicleRental> getVehicles() {
         return new ArrayList<>(vehicles);
     }
@@ -728,11 +734,57 @@ public class VehicleRentalMain {
                 case 4:
                     System.out.println("\n--- RETURN VEHICLE ---");
                     rentalSystem.viewRentedCars();
+
                     System.out.print("Enter Vehicle ID to return: ");
                     String returnId = scanner.nextLine();
-                    RentalRecords.returnVehicle(rentalSystem.getVehicles(), returnId);
-                    break;
 
+                    boolean founde = false;
+
+                    for (int i = 0; i < rentalSystem.vehicles.size(); i++) 
+                    {
+
+                         VehicleRental v = rentalSystem.vehicles.get(i);
+
+                        if (v.getVehicleid().equalsIgnoreCase(returnId)) 
+                        {
+
+                             if (v.getAvailabilityStatus().equalsIgnoreCase("Rented")) 
+                             {
+
+                                v.setAvailabilityStatus("Available");
+
+                                for (int j = 0; j < rentalSystem.getRecords().size(); j++) 
+                                {
+
+                                    RentalRecords r = rentalSystem.getRecords().get(j);
+
+                                    if (r.getVehicle().getVehicleid().equalsIgnoreCase(returnId) && r.isActive()) 
+                                    {
+                                        r.setActive(false);
+                                        System.out.println("Rental record closed successfully!");
+                                        break;
+                                    }
+                                }
+                                
+
+                                System.out.println("Vehicle returned successfully!");
+                                founde = true;
+
+                            } else 
+                             {
+                                System.out.println("Vehicle is already available.");
+                                founde = true;
+                             }
+                             
+                            break;
+                        }
+                    }
+
+    if (!founde) {
+        System.out.println("Vehicle not found.");
+    }
+
+    break;
                 case 5:
                     rentalSystem.viewAllRecords();
                     break;
