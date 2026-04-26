@@ -5,6 +5,7 @@
 package com.mycompany.vehiclerentalmain;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 abstract class VehicleRental {
@@ -268,9 +269,11 @@ class Bike extends VehicleRental {
 
 class VehicleRentalSystem {
 
+    
     ArrayList<VehicleRental> vehicles;
     private ArrayList<RentalRecords> records;
-
+    private int recordCounter = 1;
+    
     public VehicleRentalSystem() {
         this.vehicles = new ArrayList<>();
         this.records = new ArrayList<>();
@@ -281,7 +284,10 @@ class VehicleRentalSystem {
         return records;
     }
     
-    
+    public String generateRecordID() 
+    {
+        return "R" + (recordCounter++);
+    }
 
     public ArrayList<VehicleRental> getVehicles() {
         return new ArrayList<>(vehicles);
@@ -295,7 +301,7 @@ class VehicleRentalSystem {
         records.add(r);
     }
 
-    public void viewAllVehciels() {
+    public void viewAllVehicles() {
         if (vehicles.size() == 0) {
             System.out.println("There are no vehicles add yet");
             return;
@@ -370,7 +376,7 @@ class VehicleRentalSystem {
         }
     }
 
-    public void fitlerBycolor(String color) {
+    public void filterBycolor(String color) {
         boolean found = false;
         for (int i = 0; i < vehicles.size(); i++) {
             if (vehicles.get(i).getColor().equalsIgnoreCase(color)) {
@@ -589,10 +595,10 @@ public class VehicleRentalMain {
             System.out.println("      VEHICLE RENTAL SYSTEM MENU");
             System.out.println("=========================================");
             System.out.println("1. Add Vehicle");
-            System.out.println("2. View All Vehicles");
+            System.out.println("2. View all / filter Vehicles");
             System.out.println("3. Rent Vehicle");
             System.out.println("4. Return Vehicle");
-            System.out.println("5. View All Rental Records");
+            System.out.println("5. View All / filter Rental Records");
             System.out.println("6. Exit");
             System.out.println("=========================================");
             System.out.print("Enter your choice: ");
@@ -601,7 +607,7 @@ public class VehicleRentalMain {
             try {
                 choice = scanner.nextInt();
                 scanner.nextLine();
-            } catch (Exception e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a number.");
                 scanner.nextLine();
                 continue;
@@ -679,7 +685,82 @@ public class VehicleRentalMain {
                     break;
 
                 case 2:
-                    rentalSystem.viewAllVehciels();
+                    while (true) 
+                    {                        
+                        System.out.println("\n--- VEHICLE OPTIONS ---");
+                        System.out.println("1. View All Vehicles");
+                        System.out.println("2. View Available Vehicles");
+                        System.out.println("3. View Rented Vehicles");
+                        System.out.println("4. Filter by Price");
+                        System.out.println("5. Filter by Brand");
+                        System.out.println("6. Filter by Year");
+                        System.out.println("7. Filter by Color");
+                        System.out.println("8. Back to Main Menu");
+                        
+                        System.out.println("Enter your choice: ");
+                        int vChoice;
+                        try 
+                        {
+                            vChoice = scanner.nextInt();
+                            scanner.nextLine();
+                        }
+                        catch (InputMismatchException e) 
+                        {
+                            
+                            System.out.print("Invalid input! Please enter a number.: ");
+                            scanner.nextLine();
+                            continue;
+                        }
+                        
+                        switch (vChoice) {
+                            case 1:
+                                rentalSystem.viewAllVehicles(); break;
+                                
+                            case 2:
+                                rentalSystem.viewAllAvailableCars(); break;
+                            
+                            case 3: 
+                                rentalSystem.viewRentedCars(); break;
+                            
+                            case 4: 
+                                System.out.println("Enter maximum price: ");
+                                double vPrice = scanner.nextDouble();
+                                scanner.nextLine();
+                                rentalSystem.filterByPrice(vPrice);
+                                break;
+                                
+                            case 5: 
+                                System.out.println("Enter the brand: ");
+                                String vBrand = scanner.nextLine();
+                                rentalSystem.filterbyBrand(vBrand);
+                                break;
+                                
+                            case 6: 
+                                System.out.println("Enter the year: ");
+                                int vYear = scanner.nextInt();
+                                scanner.nextLine();
+                                rentalSystem.filterbyYear(vYear);
+                                break;
+                                
+                            case 7: 
+                                System.out.println("Enter the color: ");
+                                String vColor = scanner.nextLine();
+                                rentalSystem.filterBycolor(vColor);
+                                break;
+                                
+                            case 8:
+                                break;
+                                
+                                
+                                
+                            default:
+                                System.out.println("Invalid choice.");     
+                                continue;
+                        }
+                        if(vChoice == 8)
+                            break;
+                    }
+
                     break;
 
                 case 3:
@@ -689,7 +770,7 @@ public class VehicleRentalMain {
                     String rentId = scanner.nextLine();
                     
                     boolean found = false;
-                    for(int i = 0; i < rentalSystem.vehicles.size(); i++)
+                    for(int i = 0; i < rentalSystem.getVehicles().size(); i++)
                     {
                          VehicleRental v = rentalSystem.vehicles.get(i);
                          
@@ -708,7 +789,7 @@ public class VehicleRentalMain {
                                         
                                         double cost = v.calculateRentalCost(days);
                                         
-                                        RentalRecords record = new RentalRecords("R" + (i + 1), v, customer, days, cost, true);
+                                        RentalRecords record = new RentalRecords("R" + (rentalSystem.generateRecordID()), v, customer, days, cost, true);
                                         
                                         rentalSystem.addRecord(record);
                                         
@@ -740,7 +821,7 @@ public class VehicleRentalMain {
 
                     boolean founde = false;
 
-                    for (int i = 0; i < rentalSystem.vehicles.size(); i++) 
+                    for (int i = 0; i < rentalSystem.getVehicles().size(); i++) 
                     {
 
                          VehicleRental v = rentalSystem.vehicles.get(i);
@@ -780,15 +861,91 @@ public class VehicleRentalMain {
                         }
                     }
 
-    if (!founde) {
-        System.out.println("Vehicle not found.");
-    }
-
-    break;
+                    if (!founde) 
+                    {
+                        System.out.println("Vehicle not found.");
+                    }
+                    break;
+                    
                 case 5:
-                    rentalSystem.viewAllRecords();
+                    
+                    while (true) 
+                    {
+                        
+                        System.out.println("\n--- RENTAL RECORD OPTIONS ---");
+                        System.out.println("1. View All Records");
+                        System.out.println("2. Filter by Customer Name");
+                        System.out.println("3. Filter by Active Status");
+                        System.out.println("4. Filter by Rental Days");
+                        System.out.println("5. Back to Main Menu");
+                        
+                        System.out.println("Enter your choice: ");
+                        int rChoice;
+                        
+                        try 
+                        {
+                            rChoice = scanner.nextInt();
+                            scanner.nextLine();
+                        }
+                        catch (Exception e) 
+                        {
+                            
+                            System.out.print("Invalid input! Please enter a number.: ");
+                            scanner.nextLine();
+                            continue;
+                        }
+                        
+                        switch (rChoice) 
+                        {
+                            case 1: 
+                                rentalSystem.viewAllRecords(); break;
+                            
+                            case 2: 
+                                System.out.println("Enter the customer name: ");
+                                String rCustomerName = scanner.nextLine();
+                                rentalSystem.filterByCustomerName(rCustomerName);
+                                break;
+                                
+                            case 3: 
+                                System.out.println("Enter if its active or not active, (true or false)");
+                                String input = scanner.nextLine();
+                                
+                                boolean status;
+                                if(input.equalsIgnoreCase("true"))
+                                        status = true;
+                                else if(input.equalsIgnoreCase("false"))
+                                        status = false;
+                                else
+                                {
+                                    System.out.println("Invalid input. Enter either true or false");
+                                    break;
+                                }
+                                rentalSystem.filterByActiveStatus(status);
+                                break;
+                                
+                            case 4: 
+                                System.out.println("Enter the rental days: ");
+                                int rRentalDays = scanner.nextInt();
+                                scanner.nextLine();
+                                rentalSystem.filterByRentalDays(rRentalDays);
+                                break;
+                                
+                            case 5: 
+                                break;
+                                
+                                
+                            default:
+                                System.out.println("Invalid choice.");
+                                continue;
+                        }
+                        
+                        if(rChoice == 5)
+                            break;
+                        
+                    }
                     break;
 
+                    
                 case 6:
                     System.out.println("Thank you for using Vehicle Rental System!");
                     scanner.close();
