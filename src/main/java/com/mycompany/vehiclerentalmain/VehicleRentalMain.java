@@ -697,7 +697,7 @@ public class VehicleRentalMain {
                         System.out.println("7. Filter by Color");
                         System.out.println("8. Back to Main Menu");
                         
-                        System.out.println("Enter your choice: ");
+                        System.out.print("Enter your choice: ");
                         int vChoice;
                         try 
                         {
@@ -723,27 +723,27 @@ public class VehicleRentalMain {
                                 rentalSystem.viewRentedCars(); break;
                             
                             case 4: 
-                                System.out.println("Enter maximum price: ");
+                                System.out.print("Enter maximum price: ");
                                 double vPrice = scanner.nextDouble();
                                 scanner.nextLine();
                                 rentalSystem.filterByPrice(vPrice);
                                 break;
                                 
                             case 5: 
-                                System.out.println("Enter the brand: ");
+                                System.out.print("Enter the brand: ");
                                 String vBrand = scanner.nextLine();
                                 rentalSystem.filterbyBrand(vBrand);
                                 break;
                                 
                             case 6: 
-                                System.out.println("Enter the year: ");
+                                System.out.print("Enter the year: ");
                                 int vYear = scanner.nextInt();
                                 scanner.nextLine();
                                 rentalSystem.filterbyYear(vYear);
                                 break;
                                 
                             case 7: 
-                                System.out.println("Enter the color: ");
+                                System.out.print("Enter the color: ");
                                 String vColor = scanner.nextLine();
                                 rentalSystem.filterBycolor(vColor);
                                 break;
@@ -879,7 +879,7 @@ public class VehicleRentalMain {
                         System.out.println("4. Filter by Rental Days");
                         System.out.println("5. Back to Main Menu");
                         
-                        System.out.println("Enter your choice: ");
+                        System.out.print("Enter your choice: ");
                         int rChoice;
                         
                         try 
@@ -901,7 +901,7 @@ public class VehicleRentalMain {
                                 rentalSystem.viewAllRecords(); break;
                             
                             case 2: 
-                                System.out.println("Enter the customer name: ");
+                                System.out.print("Enter the customer name: ");
                                 String rCustomerName = scanner.nextLine();
                                 rentalSystem.filterByCustomerName(rCustomerName);
                                 break;
@@ -924,7 +924,7 @@ public class VehicleRentalMain {
                                 break;
                                 
                             case 4: 
-                                System.out.println("Enter the rental days: ");
+                                System.out.print("Enter the rental days: ");
                                 int rRentalDays = scanner.nextInt();
                                 scanner.nextLine();
                                 rentalSystem.filterByRentalDays(rRentalDays);
