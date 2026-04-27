@@ -265,8 +265,8 @@ class Bike extends VehicleRental {
         return super.toString() + ", \nEngine Capacity= " + engineCapacity + ", Bike Type= " + bikeType + ", Engine Type= " + engineType + ", Has Gear= " + hasGear + "} <--- Bike";
     }
 }
-       //R3️
 
+       //R3️ on Fayadh 
 class VehicleRentalSystem {
 
     
@@ -442,7 +442,7 @@ class VehicleRentalSystem {
     }
 }
 
-// R6
+// R6 on Fayadh
 class RentalRecords {
 
     private String recordID;
@@ -684,6 +684,7 @@ public class VehicleRentalMain {
                     }
                     break;
 
+                    //case 2 on Fayadh
                 case 2:
                     while (true) 
                     {                        
@@ -866,7 +867,8 @@ public class VehicleRentalMain {
                         System.out.println("Vehicle not found.");
                     }
                     break;
-                    
+
+                    // case 5 on Fayadh
                 case 5:
                     
                     while (true) 
