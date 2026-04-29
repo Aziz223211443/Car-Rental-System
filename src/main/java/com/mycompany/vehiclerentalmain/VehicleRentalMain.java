@@ -333,7 +333,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no rented cars");
+            System.out.println("There are no rented vehicles");
         }
     }
 
@@ -595,10 +595,10 @@ public class VehicleRentalMain {
             System.out.println("      VEHICLE RENTAL SYSTEM MENU");
             System.out.println("=========================================");
             System.out.println("1. Add Vehicle");
-            System.out.println("2. View all / filter Vehicles");
+            System.out.println("2. View All Vehicles");
             System.out.println("3. Rent Vehicle");
             System.out.println("4. Return Vehicle");
-            System.out.println("5. View All / filter Rental Records");
+            System.out.println("5. View All Rental Records");
             System.out.println("6. Exit");
             System.out.println("=========================================");
             System.out.print("Enter your choice: ");
