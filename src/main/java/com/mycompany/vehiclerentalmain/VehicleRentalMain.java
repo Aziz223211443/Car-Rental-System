@@ -286,7 +286,17 @@ class VehicleRentalSystem {
     
     public String generateRecordID() 
     {
-        return "R" + (recordCounter++);
+        String id;
+        
+        if (recordCounter < 10)
+        id = "R00" + recordCounter;
+    else if (recordCounter < 100)
+        id = "R0" + recordCounter;
+    else
+        id = "R" + recordCounter;
+        
+        recordCounter ++;
+        return id;
     }
 
     public ArrayList<VehicleRental> getVehicles() {
@@ -333,7 +343,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no rented vehicles");
+            System.out.println("There are no rented cars");
         }
     }
 
@@ -507,7 +517,7 @@ class RentalRecords {
 
     @Override
     public String toString() {
-        return "Rental Record\n"
+        return "\nRental Record\n"
                 + "---------------------\n"
                 + "Record ID: " + recordID + "\n"
                 + "Vehicle ID: " + vehicle.getVehicleid() + "\n"
@@ -790,7 +800,7 @@ public class VehicleRentalMain {
                                         
                                         double cost = v.calculateRentalCost(days);
                                         
-                                        RentalRecords record = new RentalRecords("R" + (rentalSystem.generateRecordID()), v, customer, days, cost, true);
+                                        RentalRecords record = new RentalRecords((rentalSystem.generateRecordID()), v, customer, days, cost, true);
                                         
                                         rentalSystem.addRecord(record);
                                         
@@ -843,6 +853,8 @@ public class VehicleRentalMain {
                                     if (r.getVehicle().getVehicleid().equalsIgnoreCase(returnId) && r.isActive()) 
                                     {
                                         r.setActive(false);
+                                        System.out.println("\n--- RENTAL SUMMARY ---");
+                                        System.out.println(r.toString());
                                         System.out.println("Rental record closed successfully!");
                                         break;
                                     }
