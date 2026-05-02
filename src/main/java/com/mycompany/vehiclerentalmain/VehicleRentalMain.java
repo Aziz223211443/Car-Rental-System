@@ -273,6 +273,9 @@ class VehicleRentalSystem {
     ArrayList<VehicleRental> vehicles;
     private ArrayList<RentalRecords> records;
     private int recordCounter = 1;
+    private int carCounter = 1;
+    private int truckCounter = 1;
+    private int bikeCounter = 1;
     
     public VehicleRentalSystem() {
         this.vehicles = new ArrayList<>();
@@ -296,6 +299,47 @@ class VehicleRentalSystem {
         id = "R" + recordCounter;
         
         recordCounter ++;
+        return id;
+    }
+    
+    public String generateVehicleID(String type)
+    {
+        String id = "";
+
+        if (type.equalsIgnoreCase("Car"))
+        {
+            if (carCounter < 10)
+                id = "C00" + carCounter;
+            else if (carCounter < 100)
+                id = "C0" + carCounter;
+            else
+                id = "C" + carCounter;
+
+            carCounter++;
+        }
+        else if (type.equalsIgnoreCase("Truck"))
+        {
+            if (truckCounter < 10)
+                id = "T00" + truckCounter;
+            else if (truckCounter < 100)
+                id = "T0" + truckCounter;
+            else
+                id = "T" + truckCounter;
+
+            truckCounter++;
+        }
+        else if (type.equalsIgnoreCase("Bike"))
+        {
+            if (bikeCounter < 10)
+                id = "B00" + bikeCounter;
+            else if (bikeCounter < 100)
+                id = "B0" + bikeCounter;
+            else
+                id = "B" + bikeCounter;
+
+            bikeCounter++;
+        }
+
         return id;
     }
 
@@ -626,8 +670,7 @@ public class VehicleRentalMain {
             switch (choice) {
                 case 1:
                     System.out.println("\n--- ADD NEW VEHICLE ---");
-                    System.out.print("Enter Vehicle ID: ");
-                    String id = scanner.nextLine();
+
                     System.out.print("Enter Brand: ");
                     String brand = scanner.nextLine();
                     System.out.print("Enter Model: ");
@@ -648,6 +691,7 @@ public class VehicleRentalMain {
 
                     try {
                         if (type.equalsIgnoreCase("Car")) {
+                            String id = rentalSystem.generateVehicleID("Car");
                             System.out.print("Enter Number of Doors: ");
                             int doors = scanner.nextInt();
                             scanner.nextLine();
@@ -659,8 +703,9 @@ public class VehicleRentalMain {
                             String passType = scanner.nextLine();
                             Car newCar = new Car(doors, fuel, trans, passType, id, brand, model, price, "Available", year, color, mileage);
                             rentalSystem.addVehicle(newCar);
-                            System.out.println("Car added successfully!");
+                            System.out.println("Car added successfully! ID: " + id);
                         } else if (type.equalsIgnoreCase("Truck")) {
+                            String id = rentalSystem.generateVehicleID("Truck");
                             System.out.print("Enter Load Capacity (tons): ");
                             double load = scanner.nextDouble();
                             scanner.nextLine();
@@ -671,8 +716,9 @@ public class VehicleRentalMain {
                             scanner.nextLine();
                             Truck newTruck = new Truck(load, truckType, height, id, brand, model, price, "Available", year, color, mileage);
                             rentalSystem.addVehicle(newTruck);
-                            System.out.println("Truck added successfully!");
+                            System.out.println("Truck added successfully! ID: " + id);
                         } else if (type.equalsIgnoreCase("Bike")) {
+                            String id = rentalSystem.generateVehicleID("Bike");
                             System.out.print("Enter Engine Capacity (cc): ");
                             int engine = scanner.nextInt();
                             scanner.nextLine();
@@ -685,7 +731,7 @@ public class VehicleRentalMain {
                             scanner.nextLine();
                             Bike newBike = new Bike(engine, bikeType, engineType, hasGear, id, brand, model, price, "Available", year, color, mileage);
                             rentalSystem.addVehicle(newBike);
-                            System.out.println("Bike added successfully!");
+                            System.out.println("Bike added successfully! ID: " + id);
                         } else {
                             System.out.println("Invalid vehicle type!");
                         }
