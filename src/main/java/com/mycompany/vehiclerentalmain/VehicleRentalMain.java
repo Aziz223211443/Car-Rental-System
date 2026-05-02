@@ -273,9 +273,9 @@ class VehicleRentalSystem {
     ArrayList<VehicleRental> vehicles;
     private ArrayList<RentalRecords> records;
     private int recordCounter = 1;
-    private int carCounter = 1;
-    private int truckCounter = 1;
-    private int bikeCounter = 1;
+    private int carCounter = 3;
+    private int truckCounter = 2;
+    private int bikeCounter = 2;
     
     public VehicleRentalSystem() {
         this.vehicles = new ArrayList<>();
