@@ -123,7 +123,7 @@ abstract class VehicleRental {
 
     @Override
     public String toString() {
-        return  "\n{Vehicle ID= " + vehicleid + ", Brand= " + brand + ", Model=" + model + ", Rental Price Per Day= " + rentalPricePerDay + ",\n Availability Status= " + availabilityStatus + ", Year= " + year + ", Color= " + color + ", Mileage= " + mileage;
+        return  "\n{Vehicle ID: " + vehicleid + ", Brand: " + brand + ", Model: " + model + ", Rental Price Per Day: " + rentalPricePerDay + ",\n Availability Status: " + availabilityStatus + ", Year: " + year + ", Color: " + color + ", Mileage: " + mileage;
     }
 
 }
@@ -168,7 +168,7 @@ class Car extends VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString() + ", \nNumber of doors= " + numberOfdoors + ", Feul Type= " + fuelType + ", Transmission Type= " + transmissionType + ", Passenger Type= " + passengerType + "} <-- Car";
+        return super.toString() + ", \nNumber of doors: " + numberOfdoors + ", Feul Type: " + fuelType + ", Transmission Type: " + transmissionType + ", Passenger Type: " + passengerType + "} <-- Car";
     }
 
 }
@@ -211,7 +211,7 @@ class Truck extends VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString() + ", \nLoad Capacity= " + loadCapacity + ", Truck Type= " + truckType + ", Height= " + height + "} <--- Truck";
+        return super.toString() + ", \nLoad Capacity: " + loadCapacity + ", Truck Type: " + truckType + ", Height: " + height + "} <--- Truck";
     }
 
 }
@@ -262,7 +262,7 @@ class Bike extends VehicleRental {
 
     @Override
     public String toString() {
-        return super.toString() + ", \nEngine Capacity= " + engineCapacity + ", Bike Type= " + bikeType + ", Engine Type= " + engineType + ", Has Gear= " + hasGear + "} <--- Bike";
+        return super.toString() + ", \nEngine Capacity: " + engineCapacity + ", Bike Type: " + bikeType + ", Engine Type: " + engineType + ", Has Gear: " + hasGear + "} <--- Bike";
     }
 }
 
@@ -387,7 +387,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no rented cars");
+            System.out.println("There are no rented vehicles");
         }
     }
 
@@ -400,7 +400,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no cars by this price");
+            System.out.println("There are no vehicles by this price");
         }
     }
 
@@ -413,7 +413,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no cars by this brand");
+            System.out.println("There are no vehicles by this brand");
         }
     }
 
@@ -426,7 +426,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no cars by this year");
+            System.out.println("There are no vehicles by this year");
         }
     }
 
@@ -439,7 +439,7 @@ class VehicleRentalSystem {
             }
         }
         if (!found) {
-            System.out.println("There are no cars by this color");
+            System.out.println("There are no vehicles by this color");
         }
     }
 
@@ -781,8 +781,21 @@ public class VehicleRentalMain {
                             
                             case 4: 
                                 System.out.print("Enter maximum price: ");
-                                double vPrice = scanner.nextDouble();
-                                scanner.nextLine();
+                                double vPrice;
+                                while (true) 
+                                {  
+                                    try
+                                    {
+                                        vPrice = scanner.nextDouble();
+                                        scanner.nextLine();
+                                        break;
+                                    }
+                                    catch (InputMismatchException e)
+                                    {
+                                        System.out.println("Invalid input, Put a price to filter by price.");
+                                        scanner.nextLine();
+                                    }
+                                }
                                 rentalSystem.filterByPrice(vPrice);
                                 break;
                                 
